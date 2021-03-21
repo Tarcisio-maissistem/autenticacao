@@ -7,24 +7,27 @@ import 'moment/locale/pt-br';
 
 
 const Contacts = () => {
-    //let start = moment().format('l');
-    //let end = moment().startOf('4').fromNow(); 
-    //let dif = end - start
 
+    function venci(validade) {
 
-    let dia = moment().format("DD")
-    let mes = moment().format("MM")
-    let ano = moment().format("YYYY")
-    let diaalerta = dia + '-' + mes + '-' + ano;
+        // Precisamos quebrar a string para retornar cada parte
+        const dataSplit = validade.split('/');
+        const year = dataSplit[0]; 
+        const month = dataSplit[1]; 
+        const day = dataSplit[2]; 
+        // Agora podemos inicializar o objeto Date, lembrando que o mês começa em 0, então fazemos -1.
+        validade = new Date(year, month - 1, day);
 
+        const now = new Date(); // Data de hoje
+        //const past = new Date(validade); // Outra data no passado
+        const diff = Math.abs(now - validade); // Subtrai uma data pela outra
+        const days = Math.ceil(diff / (1000 * 60 * 60 * 24)); // Divide o total pelo total de milisegundos correspondentes a 1 dia. (1000 milisegundos = 1 segundo).
 
-    //let alerta = moment().add(2, 'days').calendar("DD-MM-YYYY");
+        // Mostra a diferença em dias
+        //console.log('diferenca de '+days);
 
-
-    //let diaVenci = moment().format("10-12-2020")//DIA COM MES JUNTOS
-
-    //console.log(start)
-
+        return days
+    }
 
     var [contactObjects, setContactObjects] = useState({})
     var [currentId, setCurrentId] = useState('')
@@ -133,12 +136,12 @@ const Contacts = () => {
                                 Object.keys(contactObjects).map(id => {
                                     return <tr
                                         key={id}
-                                        className={contactObjects[id].validade <= diaalerta ? "table-danger" : "table-success"}>
+                                        className={contactObjects[id].validade <= venci(contactObjects[id].validade) ? "table-danger" : "table-success"}>
                                         <td>{contactObjects[id].nome}</td>
                                         <td>{contactObjects[id].cpfcnpj}</td>
                                         <td>{contactObjects[id].contato}</td>
                                         <td>{contactObjects[id].telefone}</td>
-                                        <td>{moment().subtract(contactObjects[id].validade, 'days').calendar()}</td>
+                                        <td>{venci(contactObjects[id].validade)}</td>
                                         <td>
                                             <a className="btn text-primary" onClick={() => { setCurrentId(id) }}>
                                                 <i className="fas fa-pencil-alt"></i>

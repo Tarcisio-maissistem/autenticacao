@@ -6,7 +6,7 @@ const ContactForm = (props) => {
     let dia = moment().format("DD")
     let mes = moment().format("MM")
     let ano = moment().format("YYYY")
-    let dataCadastro = dia + '-' + mes + '-' + ano;
+    let dataCadastro = dia + '/' + mes + '/' + ano;
 
     const valoresIniciais = {
         nome: '',
@@ -46,7 +46,7 @@ const ContactForm = (props) => {
         var { name, value } = e.target
         setValores({
             ...valores,
-            [name]: value
+            [name]: value.replaceAll('-','/')
         })
     }
 
