@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import moment from 'moment'
 
 const ContactForm = (props) => {
-
     let dia = moment().format("DD")
     let mes = moment().format("MM")
     let ano = moment().format("YYYY")
@@ -23,7 +22,7 @@ const ContactForm = (props) => {
         cidade: '',
         estado: '',
         atualizado: '',
-        sistema:'',
+        sistema: '',
         validade: '',
         obs: '',
         dataCadastro: dataCadastro
@@ -33,7 +32,7 @@ const ContactForm = (props) => {
 
     useEffect(() => {
         if (props.currentId === '')
-        setValores({
+            setValores({
                 ...valoresIniciais
             })
         else
@@ -46,7 +45,7 @@ const ContactForm = (props) => {
         var { name, value } = e.target
         setValores({
             ...valores,
-            [name]: value.replaceAll('-','/')
+            [name]: value
         })
     }
 
@@ -57,6 +56,31 @@ const ContactForm = (props) => {
 
     return (
         <form autoComplete="off" onSubmit={handleFormSubmit}>
+            <div className="form-row">
+                <div className="form-group input-group col-md-6">
+                    <div className="input-group-prepend">
+                        <div className="input-group-text">
+                            <i className="fas fa-mobile-alt"></i>
+                        </div>
+                    </div>
+                    <input minLength="11" maxLength="18" className="form-control" placeholder="CPF/CNPJ" name="cpfcnpj"
+                        value={valores.cpfcnpj.replace(/\D/gim, '')}
+                        onChange={handleInputChange}
+                    />&nbsp;
+                    <button type="button" className="btn btn-primary">Consulta</button>
+                </div>
+                <div className="form-group input-group col-md-6">
+                    <div className="input-group-prepend">
+                        <div className="input-group-text">
+                            <i className="fas fa-envelope"></i>
+                        </div>
+                    </div>
+                    <input className="form-control" placeholder="Contato" name="contato"
+                        value={valores.contato}
+                        onChange={handleInputChange}
+                    />
+                </div>
+            </div>
             <div className="form-group input-group">
                 <div className="input-group-prepend">
                     <div className="input-group-text">
@@ -103,30 +127,7 @@ const ContactForm = (props) => {
                     />
                 </div>
             </div>
-            <div className="form-row">
-                <div className="form-group input-group col-md-6">
-                    <div className="input-group-prepend">
-                        <div className="input-group-text">
-                            <i className="fas fa-mobile-alt"></i>
-                        </div>
-                    </div>
-                    <input minLength="11" maxLength="14" className="form-control" placeholder="CNPJ ou CPF" name="cpfcnpj"
-                        value={valores.cpfcnpj}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div className="form-group input-group col-md-6">
-                    <div className="input-group-prepend">
-                        <div className="input-group-text">
-                            <i className="fas fa-envelope"></i>
-                        </div>
-                    </div>
-                    <input className="form-control" placeholder="Contato" name="contato"
-                        value={valores.contato}
-                        onChange={handleInputChange}
-                    />
-                </div>
-            </div>
+
             <label><strong>Endereço</strong></label>
             <div className="form-row">
                 <div className="form-group input-group col-md-8">
@@ -252,9 +253,8 @@ const ContactForm = (props) => {
             <div className="form-group">
                 <input
                     type="submit"
-                    value={props.currentId == '' ? "Salvar" : "Atualizar"}
-                    className="btn btn-primary btn-block"
-
+                    value={props.currentId === '' ? "Salvar" : "Atualizar"}
+                    className="btn btn-success btn-block"
                 />
             </div>
 

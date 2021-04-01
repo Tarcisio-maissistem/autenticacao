@@ -3,14 +3,9 @@ import Contacts from "./components/Contacts";
 
 function App() {
   return (
-    <div className="container">
-    <div className='row'>
-      <div className='col-sm'>
-        <Contacts />
-      </div>
+    <div className="w-auto p-3">
+      <Contacts />
     </div>
-    </div>
-
   );
 }
 
